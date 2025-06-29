@@ -57,13 +57,13 @@ export default function ProductGrid() {
               className="bg-white border border-gray-200 rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer"
             >
               <Link href={`product/${product.id}`}>
-                <div className="aspect-square mb-2 bg-gray-100 rounded-md overflow-hidden">
+                <div className="aspect-square mb-2 rounded-md overflow-hidden">
                   <Image
                     src={product.image}
                     alt={product.title}
                     width={150}
                     height={150}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                     unoptimized
                   />
                 </div>
