@@ -2,6 +2,7 @@ import ProductGrid from "./components/ProductGrid";
 import Sidebar from "./components/SideBar";
 import Header from "./components/Header";
 import { FilterProvider } from "./contexts/FilterContext";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
           <Sidebar />
           <ProductGrid />
         </div>
+        <Footer/>
       </div>
     </FilterProvider>
   );
