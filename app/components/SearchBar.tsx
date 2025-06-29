@@ -66,11 +66,11 @@ export default function SearchBar({
     <div className={`relative w-full ${className}`}>
       <div
         className={`
-          relative flex items-center bg-white rounded-full border-2 transition-all duration-200 shadow-sm
+          relative flex items-center rounded-md border-2 transition-all duration-200 shadow-sm
           ${
             isFocused
               ? "border-blue-500 shadow-lg ring-4 ring-blue-500/10"
-              : "border-gray-200 hover:border-gray-300"
+              : "border-gray-400 hover:border-gray-300"
           }
         `}
       >
@@ -98,8 +98,8 @@ export default function SearchBar({
           placeholder={placeholder}
           disabled={isLoading}
           className="
-            flex-1 py-2 sm:py-3 px-1 sm:px-2 bg-transparent outline-none 
-            text-gray-700 placeholder-gray-400 text-sm sm:text-base
+            flex-1 py-2 sm:py-3 px-1 sm:px-2 bg-transparent outline-none
+            text-white placeholder-gray-400 text-sm sm:text-base
             disabled:opacity-50 disabled:cursor-not-allowed
           "
           aria-label="Search"
@@ -110,7 +110,7 @@ export default function SearchBar({
             onClick={handleClear}
             disabled={isLoading}
             className="
-              p-1.5 sm:p-2 mr-2 rounded-full hover:bg-gray-100 
+              p-1.5 sm:p-2 mr-2 rounded-full hover:bg-gray-100
               transition-colors duration-150 group disabled:opacity-50
               disabled:cursor-not-allowed
             "
