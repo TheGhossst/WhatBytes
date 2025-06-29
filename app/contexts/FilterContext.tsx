@@ -20,7 +20,6 @@ interface FilterState {
   searchQuery: string;
   selectedCategory: string;
   priceRange: [number, number];
-  selectedBrands: string[];
   minRating: number;
 }
 
@@ -33,7 +32,6 @@ interface FilterContextType {
   updateSearch: (query: string) => void;
   updateCategory: (category: string) => void;
   updatePriceRange: (range: [number, number]) => void;
-  updateBrands: (brands: string[]) => void;
   updateMinRating: (rating: number) => void;
   clearAllFilters: () => void;
   activeFiltersCount: number;
@@ -56,8 +54,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
       parseInt(searchParams.get("minPrice") || "0"),
       parseInt(searchParams.get("maxPrice") || "1000"),
     ],
-    selectedBrands:
-      searchParams.get("brands")?.split(",").filter(Boolean) || [],
+
     minRating: parseFloat(searchParams.get("minRating") || "0"),
   });
 
@@ -90,8 +87,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
       params.set("minPrice", filters.priceRange[0].toString());
     if (filters.priceRange[1] !== 1000)
       params.set("maxPrice", filters.priceRange[1].toString());
-    if (filters.selectedBrands.length > 0)
-      params.set("brands", filters.selectedBrands.join(","));
+
     if (filters.minRating > 0)
       params.set("minRating", filters.minRating.toString());
 
@@ -147,10 +143,6 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     setFilters((prev) => ({ ...prev, priceRange: range }));
   };
 
-  const updateBrands = (brands: string[]) => {
-    setFilters((prev) => ({ ...prev, selectedBrands: brands }));
-  };
-
   const updateMinRating = (rating: number) => {
     setFilters((prev) => ({ ...prev, minRating: rating }));
   };
@@ -160,7 +152,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
       searchQuery: "",
       selectedCategory: "All",
       priceRange: [0, 1000],
-      selectedBrands: [],
+
       minRating: 0,
     });
   };
@@ -169,7 +161,6 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     (filters.searchQuery ? 1 : 0) +
     (filters.selectedCategory !== "All" ? 1 : 0) +
     (filters.priceRange[0] !== 0 || filters.priceRange[1] !== 1000 ? 1 : 0) +
-    filters.selectedBrands.length +
     (filters.minRating > 0 ? 1 : 0);
 
   return (
@@ -183,7 +174,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
         updateSearch,
         updateCategory,
         updatePriceRange,
-        updateBrands,
+
         updateMinRating,
         clearAllFilters,
         activeFiltersCount,

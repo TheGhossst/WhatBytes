@@ -9,7 +9,7 @@ interface DesktopSidebarProps {
   expandedSections: {
     category: boolean;
     price: boolean;
-    brand: boolean;
+
     rating: boolean;
   };
   toggleSection: (
@@ -20,9 +20,7 @@ interface DesktopSidebarProps {
   Categories: string[];
   priceRange: number[];
   setPriceRange: (value: [number, number]) => void;
-  selectedBrands: string[];
-  toggleBrand: (brand: string) => void;
-  Brands: string[];
+
   minRating: number[];
   setMinRating: (value: number[]) => void;
 }
@@ -37,9 +35,7 @@ export default function DesktopSidebar({
   Categories,
   priceRange,
   setPriceRange,
-  selectedBrands,
-  toggleBrand,
-  Brands,
+
   minRating,
   setMinRating,
 }: DesktopSidebarProps) {
@@ -157,51 +153,6 @@ export default function DesktopSidebar({
                     </span>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <button
-              onClick={() => toggleSection("brand")}
-              className="flex items-center justify-between w-full group"
-            >
-              <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
-                Brands
-              </h3>
-              <ChevronDown
-                className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
-                  expandedSections.brand ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-
-            <div
-              className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                expandedSections.brand
-                  ? "max-h-72 opacity-100"
-                  : "max-h-0 opacity-0"
-              }`}
-            >
-              <div className="space-y-2">
-                {Brands.map((brand) => (
-                  <button
-                    key={brand}
-                    onClick={() => toggleBrand(brand)}
-                    className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-200 ${
-                      selectedBrands.includes(brand)
-                        ? "bg-blue-50 text-blue-700 border-2 border-blue-200 shadow-sm"
-                        : "bg-gray-50 text-gray-700 hover:bg-gray-100 border-2 border-transparent"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium">{brand}</span>
-                      {selectedBrands.includes(brand) && (
-                        <Check className="w-5 h-5 text-blue-600" />
-                      )}
-                    </div>
-                  </button>
-                ))}
               </div>
             </div>
           </div>

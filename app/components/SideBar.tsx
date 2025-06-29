@@ -10,7 +10,7 @@ export default function Sidebar() {
     filters,
     updateCategory,
     updatePriceRange,
-    updateBrands,
+
     updateMinRating,
     clearAllFilters,
     activeFiltersCount,
@@ -20,7 +20,7 @@ export default function Sidebar() {
   const [expandedSections, setExpandedSections] = useState({
     category: true,
     price: true,
-    brand: true,
+
     rating: true,
   });
 
@@ -31,20 +31,11 @@ export default function Sidebar() {
     "Women's Clothing",
     "Jewelry",
   ];
-  const Brands = ["Nike", "Apple", "Samsung", "Sony"];
-
   const toggleSection = (section: keyof typeof expandedSections) => {
     setExpandedSections((prev) => ({
       ...prev,
       [section]: !prev[section],
     }));
-  };
-
-  const toggleBrand = (brand: string) => {
-    const newBrands = filters.selectedBrands.includes(brand)
-      ? filters.selectedBrands.filter((b) => b !== brand)
-      : [...filters.selectedBrands, brand];
-    updateBrands(newBrands);
   };
 
   const handleCategoryChange = (category: string) => {
@@ -71,9 +62,6 @@ export default function Sidebar() {
         Categories={Categories}
         priceRange={filters.priceRange}
         setPriceRange={handlePriceRangeChange}
-        selectedBrands={filters.selectedBrands}
-        toggleBrand={toggleBrand}
-        Brands={Brands}
       />
       <DesktopSidebar
         activeFiltersCount={activeFiltersCount}
@@ -85,9 +73,6 @@ export default function Sidebar() {
         Categories={Categories}
         priceRange={filters.priceRange}
         setPriceRange={handlePriceRangeChange}
-        selectedBrands={filters.selectedBrands}
-        toggleBrand={toggleBrand}
-        Brands={Brands}
         minRating={[filters.minRating]}
         setMinRating={handleMinRatingChange}
       />

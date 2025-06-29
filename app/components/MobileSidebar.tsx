@@ -1,7 +1,7 @@
 "use client";
 
 import { Slider } from "@/components/ui/slider";
-import { ChevronDown, Filter, Check } from "lucide-react";
+import { ChevronDown, Filter } from "lucide-react";
 
 interface MobileSidebarProps {
   isFilterOpen: boolean;
@@ -13,9 +13,6 @@ interface MobileSidebarProps {
   Categories: string[];
   priceRange: number[];
   setPriceRange: (value: [number, number]) => void;
-  selectedBrands: string[];
-  toggleBrand: (brand: string) => void;
-  Brands: string[];
 }
 
 export default function MobileSidebar({
@@ -28,9 +25,6 @@ export default function MobileSidebar({
   Categories,
   priceRange,
   setPriceRange,
-  selectedBrands,
-  toggleBrand,
-  Brands,
 }: MobileSidebarProps) {
   return (
     <>
@@ -109,28 +103,6 @@ export default function MobileSidebar({
                   <span>${priceRange[0]}</span>
                   <span>${priceRange[1]}</span>
                 </div>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <h4 className="font-medium text-gray-900">Brands</h4>
-              <div className="grid grid-cols-2 gap-2">
-                {Brands.map((brand) => (
-                  <button
-                    key={brand}
-                    onClick={() => toggleBrand(brand)}
-                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
-                      selectedBrands.includes(brand)
-                        ? "bg-blue-600 text-white shadow-md"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                    }`}
-                  >
-                    {selectedBrands.includes(brand) && (
-                      <Check className="w-4 h-4" />
-                    )}
-                    {brand}
-                  </button>
-                ))}
               </div>
             </div>
           </div>
