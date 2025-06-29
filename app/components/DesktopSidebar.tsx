@@ -19,7 +19,7 @@ interface DesktopSidebarProps {
   setSelectedCategory: (category: string) => void;
   Categories: string[];
   priceRange: number[];
-  setPriceRange: (value: number[]) => void;
+  setPriceRange: (value: [number, number]) => void;
   selectedBrands: string[];
   toggleBrand: (brand: string) => void;
   Brands: string[];

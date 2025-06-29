@@ -4,43 +4,58 @@ import type React from "react";
 
 import { useState, useRef, useEffect } from "react";
 import { Search, X, Loader2 } from "lucide-react";
+import { useFilter } from "../contexts/FilterContext";
+
+// Extend Window interface for search timeout
+declare global {
+  interface Window {
+    searchTimeout: NodeJS.Timeout;
+  }
+}
 
 interface SearchBarProps {
-  onSearch?: (query: string) => void;
   placeholder?: string;
   className?: string;
 }
 
 export default function SearchBar({
-  onSearch,
   placeholder = "Search products...",
   className = "",
 }: SearchBarProps) {
-  const [searchValue, setSearchValue] = useState("");
+  const { filters, updateSearch } = useFilter();
+  const [searchValue, setSearchValue] = useState(filters.searchQuery);
   const [isFocused, setIsFocused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    setSearchValue(filters.searchQuery);
+  }, [filters.searchQuery]);
+
   const handleClear = () => {
     setSearchValue("");
+    updateSearch("");
     inputRef.current?.focus();
   };
 
   const handleSearch = async () => {
-    if (!searchValue.trim()) return;
-
     setIsLoading(true);
     try {
-      if (onSearch) {
-        await onSearch(searchValue.trim());
-      } else {
-        console.log("Searching for:", searchValue.trim());
-      }
+      updateSearch(searchValue.trim());
     } catch (error) {
       console.error("Search error:", error);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchValue(value);
+    clearTimeout(window.searchTimeout);
+    window.searchTimeout = setTimeout(() => {
+      updateSearch(value.trim());
+    }, 300);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -91,7 +106,7 @@ export default function SearchBar({
           ref={inputRef}
           type="text"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={handleInputChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onKeyDown={handleKeyPress}

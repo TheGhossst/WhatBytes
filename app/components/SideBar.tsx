@@ -3,12 +3,19 @@
 import { useState } from "react";
 import DesktopSidebar from "./DesktopSidebar";
 import MobileSidebar from "./MobileSidebar";
+import { useFilter } from "../contexts/FilterContext";
 
 export default function Sidebar() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [priceRange, setPriceRange] = useState([0, 1000]);
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  const [minRating, setMinRating] = useState([3]);
+  const {
+    filters,
+    updateCategory,
+    updatePriceRange,
+    updateBrands,
+    updateMinRating,
+    clearAllFilters,
+    activeFiltersCount,
+  } = useFilter();
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [expandedSections, setExpandedSections] = useState({
     category: true,
@@ -17,7 +24,13 @@ export default function Sidebar() {
     rating: true,
   });
 
-  const Categories = ["All", "Electronics", "Clothing", "Home"];
+  const Categories = [
+    "All",
+    "Electronics",
+    "Clothing",
+    "Women's Clothing",
+    "Jewelry",
+  ];
   const Brands = ["Nike", "Apple", "Samsung", "Sony"];
 
   const toggleSection = (section: keyof typeof expandedSections) => {
@@ -28,23 +41,23 @@ export default function Sidebar() {
   };
 
   const toggleBrand = (brand: string) => {
-    setSelectedBrands((prev) =>
-      prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
-    );
+    const newBrands = filters.selectedBrands.includes(brand)
+      ? filters.selectedBrands.filter((b) => b !== brand)
+      : [...filters.selectedBrands, brand];
+    updateBrands(newBrands);
   };
 
-  const clearAllFilters = () => {
-    setSelectedCategory("All");
-    setPriceRange([0, 1000]);
-    setSelectedBrands([]);
-    setMinRating([3]);
+  const handleCategoryChange = (category: string) => {
+    updateCategory(category);
   };
 
-  const activeFiltersCount =
-    (selectedCategory !== "All" ? 1 : 0) +
-    (priceRange[0] !== 0 || priceRange[1] !== 1000 ? 1 : 0) +
-    selectedBrands.length +
-    (minRating[0] !== 3 ? 1 : 0);
+  const handlePriceRangeChange = (range: [number, number]) => {
+    updatePriceRange(range);
+  };
+
+  const handleMinRatingChange = (rating: number[]) => {
+    updateMinRating(rating[0]);
+  };
 
   return (
     <>
@@ -53,12 +66,12 @@ export default function Sidebar() {
         setIsFilterOpen={setIsFilterOpen}
         activeFiltersCount={activeFiltersCount}
         clearAllFilters={clearAllFilters}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
+        selectedCategory={filters.selectedCategory}
+        setSelectedCategory={handleCategoryChange}
         Categories={Categories}
-        priceRange={priceRange}
-        setPriceRange={setPriceRange}
-        selectedBrands={selectedBrands}
+        priceRange={filters.priceRange}
+        setPriceRange={handlePriceRangeChange}
+        selectedBrands={filters.selectedBrands}
         toggleBrand={toggleBrand}
         Brands={Brands}
       />
@@ -67,16 +80,16 @@ export default function Sidebar() {
         clearAllFilters={clearAllFilters}
         expandedSections={expandedSections}
         toggleSection={toggleSection}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
+        selectedCategory={filters.selectedCategory}
+        setSelectedCategory={handleCategoryChange}
         Categories={Categories}
-        priceRange={priceRange}
-        setPriceRange={setPriceRange}
-        selectedBrands={selectedBrands}
+        priceRange={filters.priceRange}
+        setPriceRange={handlePriceRangeChange}
+        selectedBrands={filters.selectedBrands}
         toggleBrand={toggleBrand}
         Brands={Brands}
-        minRating={minRating}
-        setMinRating={setMinRating}
+        minRating={[filters.minRating]}
+        setMinRating={handleMinRatingChange}
       />
     </>
   );
