@@ -2,12 +2,15 @@
 
 import Image from "next/image";
 import { useFilter } from "../contexts/FilterContext";
+import { useCart } from "../contexts/CartContext";
 import Loading from "./Loading";
 import Error from "./Error";
 import Link from "next/link";
+import { ShoppingCart, Check } from "lucide-react";
 
 export default function ProductGrid() {
   const { filteredProducts, loading, error, filters } = useFilter();
+  const { addToCart, isInCart } = useCart();
 
   if (loading) {
     <Loading />;
@@ -101,8 +104,28 @@ export default function ProductGrid() {
                 <span className="text-base font-bold text-gray-900">
                   ${product.price}
                 </span>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md text-xs font-medium transition-colors w-full">
-                  Add to Cart
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    addToCart(product);
+                  }}
+                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors w-full flex items-center justify-center gap-1 ${
+                    isInCart(product.id)
+                      ? "bg-green-600 hover:bg-green-700 text-white"
+                      : "bg-blue-600 hover:bg-blue-700 text-white"
+                  }`}
+                >
+                  {isInCart(product.id) ? (
+                    <>
+                      <Check className="w-3 h-3" />
+                      Added
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart className="w-3 h-3" />
+                      Add to Cart
+                    </>
+                  )}
                 </button>
               </div>
             </div>

@@ -1,8 +1,11 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { RotateCcw, Shield, ShoppingCart, Truck } from "lucide-react";
+import { RotateCcw, Shield, ShoppingCart, Truck, Check } from "lucide-react";
 import { StarRating } from "./StarRating";
+import { useCart } from "../../../contexts/CartContext";
 
 interface Product {
   id: number;
@@ -22,15 +25,13 @@ interface ProductDetailsProps {
 }
 
 export function ProductDetails({ product }: ProductDetailsProps) {
+  const { addToCart, isInCart } = useCart();
   const discountPrice = product.price * 0.85; //15 discount
   const savings = product.price - discountPrice;
 
   return (
     <div className="bg-white rounded-lg p-6 shadow-sm">
-      <Badge
-        variant="secondary"
-        className="mb-2 bg-blue-100 text-blue-800"
-      >
+      <Badge variant="secondary" className="mb-2 bg-blue-100 text-blue-800">
         {product.category}
       </Badge>
 
@@ -38,10 +39,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
         {product.title}
       </h1>
 
-      <StarRating
-        rating={product.rating.rate}
-        count={product.rating.count}
-      />
+      <StarRating rating={product.rating.rate} count={product.rating.count} />
 
       <Separator className="my-4" />
 
@@ -75,9 +73,25 @@ export function ProductDetails({ product }: ProductDetailsProps) {
       </div>
 
       <div className="space-y-3">
-        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3">
-          <ShoppingCart className="w-5 h-5 mr-2" />
-          Add to Cart
+        <Button
+          onClick={() => addToCart(product)}
+          className={`w-full py-3 ${
+            isInCart(product.id)
+              ? "bg-green-600 hover:bg-green-700 text-white"
+              : "bg-blue-600 hover:bg-blue-700 text-white"
+          }`}
+        >
+          {isInCart(product.id) ? (
+            <>
+              <Check className="w-5 h-5 mr-2" />
+              Added to Cart
+            </>
+          ) : (
+            <>
+              <ShoppingCart className="w-5 h-5 mr-2" />
+              Add to Cart
+            </>
+          )}
         </Button>
 
         <Button

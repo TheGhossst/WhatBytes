@@ -3,7 +3,6 @@ import { Breadcrumb } from "./components/Breadcrumb";
 import { ProductDescription } from "./components/ProductDescription";
 import { ProductDetails } from "./components/ProductDetails";
 import { ProductImage } from "./components/ProductImage";
-//import { PurchaseOptions } from "./components/PurchaseOptions";
 
 interface Product {
   id: number;
