@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import ProductGrid from "./components/ProductGrid";
 import Sidebar from "./components/SideBar";
 import Header from "./components/Header";
@@ -7,6 +8,7 @@ import Footer from "./components/Footer";
 
 export default function Home() {
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <FilterProvider>
         <div className="h-full w-full min-h-screen bg-white">
           <Header />
@@ -17,5 +19,6 @@ export default function Home() {
           <Footer/>
         </div>
       </FilterProvider>
+    </Suspense>
   );
 }

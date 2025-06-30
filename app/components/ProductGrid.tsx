@@ -13,11 +13,11 @@ export default function ProductGrid() {
   const { addToCart, isInCart } = useCart();
 
   if (loading) {
-    <Loading />;
+    return <Loading />;
   }
 
   if (error) {
-    <Error error={error} />;
+    return <Error error={error} />;
   }
 
   const getResultsText = () => {
