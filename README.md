@@ -19,6 +19,7 @@ This project is built with a modern tech stack, including:
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
 - **Icons**: [Lucide React](https://lucide.dev/)
+- **API**: [FakeStoreAPI](https://fakestoreapi.com/docs)
 
 ### Prerequisites
 
